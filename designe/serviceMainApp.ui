@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>859</width>
+    <height>455</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #89A6D2;
+border: 0;
+border-radius: 0;
+color: white;</string>
+  </property>
+  <widget class="QFrame" name="header">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>871</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">* {
+	background-color: #CDD7E4;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="Applications">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+* {
+background-color: #7FB9EB;
+width: 80px;
+height: 40px;
+}
+
+*:hover {
+background-color: #AAD0F3;
+color: black;
+}
+
+*:disabled,
+*[disabled]{
+  background-color: #CEDFF3;
+  color: #363636;
+}</string>
+    </property>
+    <property name="text">
+     <string>Заявки</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Customers">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+* {
+background-color: #7FB9EB;
+width: 80px;
+height: 40px;
+}
+
+*:hover {
+background-color: #AAD0F3;
+color: black;
+}
+
+*:disabled,
+*[disabled]{
+  background-color: #CEDFF3;
+  color: #363636;
+}</string>
+    </property>
+    <property name="text">
+     <string>Клиенты</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exit">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>9</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">* {
+color: white;
+}
+
+*:hover {
+	color: red;
+}</string>
+    </property>
+    <property name="text">
+     <string>Выход</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>6</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">* {
+	image: url(:/LogoType/designe/LogoType.png);
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTreeWidget" name="Field">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>861</width>
+     <height>361</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">* {
+color: black;
+}</string>
+   </property>
+   <column>
+    <property name="text">
+     <string>Марка машины</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Номер машины</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ФИО</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Поломка</string>
+    </property>
+   </column>
+   <item>
+    <property name="text">
+     <string>Lada 2107</string>
+    </property>
+    <property name="text">
+     <string>п325оу</string>
+    </property>
+    <property name="text">
+     <string>ФИО</string>
+    </property>
+    <property name="text">
+     <string>Левый кулак</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLineEdit" name="CarNumber">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>416</y>
+     <width>111</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">* {
+background-color: #7FB9EB;
+height: 30px;
+}</string>
+   </property>
+   <property name="placeholderText">
+    <string>Номер машины</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="assept">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>261</x>
+     <y>416</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+* {
+background-color: #7FB9EB;
+width: 80px;
+height: 40px;
+}
+
+*:hover {
+background-color: #AAD0F3;
+color: black;
+}
+
+*:disabled,
+*[disabled]{
+  background-color: #CEDFF3;
+  color: #363636;
+}</string>
+   </property>
+   <property name="text">
+    <string>Принять</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="date">
+   <property name="geometry">
+    <rect>
+     <x>137</x>
+     <y>417</y>
+     <width>110</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+* {
+background-color: #7FB9EB;
+width: 80px;
+height: 40px;
+}
+</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../source.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>slot1()</slot>
+ </slots>
+</ui>

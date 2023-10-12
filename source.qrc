@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="LogoType">
+    <file>designe/LogoType.png</file>
+  </qresource>
+</RCC>
