@@ -81,11 +81,11 @@ class MainApp(QtWidgets.QApplication):
     def __init__(self, sys_argv):
         super(MainApp, self).__init__(sys_argv)
 
-        self.login = serviceLoginApp() # Здесь обьявляется окно логина, тут можно 
-        self.login.swithToMain.connect(self.showMain) # Тут мы потключуем сигнал для перехода в основное окно
+        self.login = serviceLoginApp() # Здесь обьявляется окно
+        self.login.swithToMain.connect(self.showMain) # Тут мы потключуем сигнал для перехода в другое окно
         
-        self.main = serviceMainApp() # Здесь обьявляется окно логина, тут можно 
-        self.main.swithToClient.connect(self.showClient) # Тут мы потключуем сигнал для перехода в основное окно
+        self.main = serviceMainApp() # Здесь обьявляется окно
+        self.main.swithToClient.connect(self.showClient) # Тут мы потключуем сигнал для перехода в другое окно
         
 
         self.login.show()
