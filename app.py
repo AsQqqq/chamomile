@@ -11,7 +11,8 @@ import serviceClient
 
 
 class CommonApp(QWidget):
-    # switch_window = pyqtSignal()
+    swithToLoginFromMain = pyqtSignal()
+    swithToLoginFromClient = pyqtSignal()
     
     def __init__(self, parent=None) -> None:
         """Этот класс делает что бы параметры не повторялись везде,
@@ -71,6 +72,7 @@ class serviceLoginApp(CommonApp, serviceLogin.Ui_Form):
 
 class serviceMainApp(CommonApp, serviceMain.Ui_Form):
     swithToClient = pyqtSignal()
+    swithToLogin = pyqtSignal()
     
     def __init__(self, parent=None) -> None:
         """Это подключение дизайна, который был сделан в pyqt5 designer"""
@@ -80,7 +82,32 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
         self.connected()
     
     def connected(self) -> None:
-        pass
+        self.exit.clicked.connect(self.exitMain)
+    
+
+    def exitMain(self) -> None:
+        db().exit()
+        self.swithToLogin.emit()
+
+
+class serviceClientApp(CommonApp, serviceClient.Ui_Form):
+    swithToMain = pyqtSignal()
+    swithToLogin = pyqtSignal()
+    
+    def __init__(self, parent=None) -> None:
+        """Это подключение дизайна, который был сделан в pyqt5 designer"""
+        super(serviceClientApp, self).__init__(parent)
+        self.setupUi(self)
+
+        self.connected()
+    
+    def connected(self) -> None:
+        self.exit.clicked.connect(self.exitMain)
+    
+
+    def exitMain(self) -> None:
+        db().exit()
+        self.swithToLogin.emit()
 
 
 
@@ -95,14 +122,17 @@ class MainApp(QtWidgets.QApplication):
         
         self.main = serviceMainApp() # Здесь обьявляется окно
         self.main.swithToClient.connect(self.showClient) # Тут мы потключуем сигнал для перехода в другое окно
+        self.main.swithToLogin.connect(self.showLoginMain) # Тут мы потключуем сигнал для перехода в другое окно
+        
+        self.client = serviceClientApp() # Здесь обьявляется окно
+        self.client.swithToMain.connect(self.showClient) # Тут мы потключуем сигнал для перехода в другое окно
+        self.client.swithToLogin.connect(self.showLoginClient) # Тут мы потключуем сигнал для перехода в другое окно
         
 
-        self.login.show()
-
-        # if ldb().select_join():
-        #     self.main.show()
-        # else:
-        #     self.login.show()
+        if db().join():
+            self.main.show()
+        else:
+            self.login.show()
         
     """---------------"""
 
@@ -128,6 +158,22 @@ class MainApp(QtWidgets.QApplication):
         self.main.show()
         self.login.close()
     
+
+    def showLoginMain(self):
+        """Переключаемся на другое окно"""
+        window_pos = self.getPosition()
+        self.login.move(window_pos)
+        self.login.show()
+        self.main.close()
+    
+    
+    def showLoginClient(self):
+        """Переключаемся на другое окно"""
+        window_pos = self.getPosition()
+        self.login.move(window_pos)
+        self.login.show()
+        self.client.close()
+    
     # def showLogin(self):
     #     """Переключаемся на другое окно"""
     #     window_pos = self.getPosition()
@@ -145,7 +191,6 @@ class MainApp(QtWidgets.QApplication):
 
 
 if __name__ == "__main__":
-    db()
     import sys
     app = MainApp(sys.argv)
     sys.exit(app.exec())
