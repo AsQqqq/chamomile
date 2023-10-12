@@ -1,7 +1,9 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QPoint, pyqtSignal
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMessageBox
+
+from database import mainBase as db
 
 import serviceLogin
 import serviceMain
@@ -30,21 +32,18 @@ class serviceLoginApp(CommonApp, serviceLogin.Ui_Form):
         super(serviceLoginApp, self).__init__(parent)
         self.setupUi(self)
 
-        self.login: str = None
-        self.password: str = None
-
         self.connected()
     
     def connected(self) -> None:
         """Подключение кнопок, полей ввода и подобного и указания что им делать"""
-        self.signup.clicked.connect(self.swithToMain)
+        self.signup.clicked.connect(self.signupAccount)
 
         self.Login.textChanged.connect(self.changeLogin)
         self.Password.textChanged.connect(self.changePassword)
     
     def buttonEnable(self):
         """Проверка на поля(выключение кнопки)"""
-        if len(self.Login.text()) >= 3 and len(self.Password.text()) >= 10:
+        if len(self.Login.text()) >= 3 and len(self.Password.text()) >= 4:
             self.signup.setEnabled(True) # Включение кнопки
         else:
             self.signup.setEnabled(False) # Выключение кнопки
@@ -58,6 +57,16 @@ class serviceLoginApp(CommonApp, serviceLogin.Ui_Form):
         """Если пользователь изменил ввод в password,
         то делаем проверку"""
         self.buttonEnable()
+    
+    def signupAccount(self) -> None:
+        """Проверка введеных пользователем данных"""
+        if db().checkSignUp(login=self.Login.text(), password=self.Password.text()):
+            self.swithToMain.emit()
+        else:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Ошибка!")
+            msg_box.setText('Логин или пароль неверен')
+            msg_box.exec_()
 
 
 class serviceMainApp(CommonApp, serviceMain.Ui_Form):
@@ -136,6 +145,7 @@ class MainApp(QtWidgets.QApplication):
 
 
 if __name__ == "__main__":
+    db()
     import sys
     app = MainApp(sys.argv)
     sys.exit(app.exec())
