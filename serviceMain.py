@@ -103,7 +103,7 @@ class Ui_Form(object):
         self.CarNumber.setObjectName("CarNumber")
         self.assept = QtWidgets.QPushButton(Form)
         self.assept.setEnabled(False)
-        self.assept.setGeometry(QtCore.QRect(261, 416, 101, 31))
+        self.assept.setGeometry(QtCore.QRect(130, 416, 101, 31))
         self.assept.setStyleSheet("\n"
 "* {\n"
 "background-color: #7FB9EB;\n"
@@ -122,16 +122,18 @@ class Ui_Form(object):
 "  color: #363636;\n"
 "}")
         self.assept.setObjectName("assept")
-        self.date = QtWidgets.QDateEdit(Form)
-        self.date.setGeometry(QtCore.QRect(137, 417, 110, 31))
-        self.date.setStyleSheet("\n"
-"* {\n"
-"background-color: #7FB9EB;\n"
-"width: 80px;\n"
-"height: 40px;\n"
-"}\n"
-"")
-        self.date.setObjectName("date")
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(790, 430, 61, 20))
+        self.pushButton.setStyleSheet("*:hover {\n"
+"    color: green;\n"
+"}")
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2.setGeometry(QtCore.QRect(720, 430, 61, 20))
+        self.pushButton_2.setStyleSheet("*:hover {\n"
+"    color: green;\n"
+"}")
+        self.pushButton_2.setObjectName("pushButton_2")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -155,6 +157,8 @@ class Ui_Form(object):
         self.Field.setSortingEnabled(__sortingEnabled)
         self.CarNumber.setPlaceholderText(_translate("Form", "Номер машины"))
         self.assept.setText(_translate("Form", "Принять"))
+        self.pushButton.setText(_translate("Form", "Генерация"))
+        self.pushButton_2.setText(_translate("Form", "Обновить"))
 import source_rc
 
 

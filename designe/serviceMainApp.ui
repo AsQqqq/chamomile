@@ -227,7 +227,7 @@ height: 30px;
    </property>
    <property name="geometry">
     <rect>
-     <x>261</x>
+     <x>130</x>
      <y>416</y>
      <width>101</width>
      <height>31</height>
@@ -256,23 +256,40 @@ color: black;
     <string>Принять</string>
    </property>
   </widget>
-  <widget class="QDateEdit" name="date">
+  <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>137</x>
-     <y>417</y>
-     <width>110</width>
-     <height>31</height>
+     <x>790</x>
+     <y>430</y>
+     <width>61</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-* {
-background-color: #7FB9EB;
-width: 80px;
-height: 40px;
-}
-</string>
+    <string notr="true">*:hover {
+	color: green;
+}</string>
+   </property>
+   <property name="text">
+    <string>Генерация</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>430</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">*:hover {
+	color: green;
+}</string>
+   </property>
+   <property name="text">
+    <string>Обновить</string>
    </property>
   </widget>
  </widget>

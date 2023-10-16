@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt, QPoint, pyqtSignal
-from PyQt5.QtWidgets import QWidget, QMessageBox
+from PyQt5.QtWidgets import QWidget, QMessageBox, QTreeWidgetItem
 
 from database import mainBase as db
 
@@ -79,15 +79,88 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
         super(serviceMainApp, self).__init__(parent)
         self.setupUi(self)
 
+        self.CarNumber.setMaxLength(12)
+
+        self.Field.clear()
+        rows = db().updateMAIN()
+        if rows == []:
+            QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3]])
+
+        self.assept.setEnabled(False)
+
         self.connected()
     
     def connected(self) -> None:
         self.exit.clicked.connect(self.exitMain)
+        self.Customers.clicked.connect(self.ToClient)
+        
+        self.CarNumber.textEdited.connect(self.ToNumberEdited)
+        self.assept.clicked.connect(self.AsseptButton)
+        
+        self.pushButton.clicked.connect(self.Generate)
+        self.pushButton_2.clicked.connect(self.update)
     
 
     def exitMain(self) -> None:
         db().exit()
         self.swithToLogin.emit()
+    
+
+    def AsseptButton(self) -> None:
+        text: str = self.CarNumber.text().strip()  # удаление пробелов в начале и в конце строки
+        req = db().changeCarsMAIN(carNumber=text)
+        if req:
+            self.Field.clear()
+            rows = db().updateMAIN()
+            if rows == []:
+                QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто"])
+            else:
+                for row in rows:
+                    item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3]])
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Ошибка!")
+            msg_box.setText('Номер взят на работу')
+            msg_box.exec_()
+        else:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Ошибка!")
+            msg_box.setText('Такого номера не существует')
+            msg_box.exec_()
+
+    
+    def ToNumberEdited(self, text) -> None:
+        if len(text) <= 12:
+            self.assept.setEnabled(True)
+        else:
+            self.assept.setEnabled(False)
+    
+    
+    def ToClient(self) -> None:
+        self.swithToClient.emit()
+    
+
+    def Generate(self) -> None:
+        self.Field.clear()
+        rows = db().generateMAIN()
+        if rows == []:
+            QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3]])
+    
+
+    def update(self) -> None:
+        self.Field.clear()
+        rows = db().updateMAIN()
+        if rows == []:
+            QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3]])
+
 
 
 class serviceClientApp(CommonApp, serviceClient.Ui_Form):
@@ -99,15 +172,74 @@ class serviceClientApp(CommonApp, serviceClient.Ui_Form):
         super(serviceClientApp, self).__init__(parent)
         self.setupUi(self)
 
+        self.CarNumber.setMaxLength(12)
+
+        self.Field.clear()
+        rows = db().updateCLIENT()
+        if rows == []:
+            QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3], row[4]])
+
+        self.assept.setEnabled(False)
+
         self.connected()
     
     def connected(self) -> None:
         self.exit.clicked.connect(self.exitMain)
+        self.Applications.clicked.connect(self.ToMain)
+
+        self.CarNumber.textEdited.connect(self.ToNumberEdited)
+        self.assept.clicked.connect(self.AsseptButton)
     
 
     def exitMain(self) -> None:
         db().exit()
         self.swithToLogin.emit()
+    
+
+    def ToMain(self) -> None:
+        self.swithToMain.emit()
+
+
+    def AsseptButton(self) -> None:
+        text: str = self.CarNumber.text().strip()
+        req = db().changeCarsCLIENT(carNumber=text)
+        if req == True:
+            self.Field.clear()
+            rows = db().updateCLIENT()
+            if rows == []:
+                QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто", "Пусто"])
+            else:
+                for row in rows:
+                    item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3], row[4]])
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Ошибка!")
+            msg_box.setText('Номер завершён')
+            msg_box.exec_()
+        else:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Ошибка!")
+            msg_box.setText('Такого номера не существует')
+            msg_box.exec_()
+
+    
+    def ToNumberEdited(self, text) -> None:
+        if len(text) <= 12:
+            self.assept.setEnabled(True)
+        else:
+            self.assept.setEnabled(False)
+    
+
+    def update(self) -> None:
+        self.Field.clear()
+        rows = db().updateCLIENT()
+        if rows == []:
+            QTreeWidgetItem(self.Field, ["Пусто", "Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.Field, [row[0], row[1], row[2], row[3], row[4]])
 
 
 
@@ -125,7 +257,7 @@ class MainApp(QtWidgets.QApplication):
         self.main.swithToLogin.connect(self.showLoginMain) # Тут мы потключуем сигнал для перехода в другое окно
         
         self.client = serviceClientApp() # Здесь обьявляется окно
-        self.client.swithToMain.connect(self.showClient) # Тут мы потключуем сигнал для перехода в другое окно
+        self.client.swithToMain.connect(self.showMainCL) # Тут мы потключуем сигнал для перехода в другое окно
         self.client.swithToLogin.connect(self.showLoginClient) # Тут мы потключуем сигнал для перехода в другое окно
         
 
@@ -151,12 +283,37 @@ class MainApp(QtWidgets.QApplication):
         self.main.show()
         self.login.close()
     
+    def showMainCL(self):
+        """Переключаемся на другое окно"""
+        window_pos = self.getPosition()
+
+        self.main.Field.clear()
+        rows = db().updateMAIN()
+        if rows == []:
+            QTreeWidgetItem(self.main.Field, ["Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.main.Field, [row[0], row[1], row[2], row[3]])
+
+        self.main.move(window_pos)
+        self.main.show()
+        self.client.close()
+    
     def showClient(self):
         """Переключаемся на другое окно"""
         window_pos = self.getPosition()
-        self.main.move(window_pos)
-        self.main.show()
-        self.login.close()
+
+        self.client.Field.clear()
+        rows = db().updateCLIENT()
+        if rows == []:
+            QTreeWidgetItem(self.client.Field, ["Пусто", "Пусто", "Пусто", "Пусто", "Пусто"])
+        else:
+            for row in rows:
+                item = QTreeWidgetItem(self.client.Field, [row[0], row[1], row[2], row[3], row[4]])
+
+        self.client.move(window_pos)
+        self.client.show()
+        self.main.close()
     
 
     def showLoginMain(self):

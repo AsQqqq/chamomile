@@ -136,6 +136,7 @@ class Ui_Form(object):
         self.Field.headerItem().setText(1, _translate("Form", "Номер машины"))
         self.Field.headerItem().setText(2, _translate("Form", "ФИО"))
         self.Field.headerItem().setText(3, _translate("Form", "Поломка"))
+        self.Field.headerItem().setText(4, _translate("Form", "Дата начала"))
         self.CarNumber.setPlaceholderText(_translate("Form", "Номер машины"))
         self.assept.setText(_translate("Form", "Принять"))
 import source_rc
