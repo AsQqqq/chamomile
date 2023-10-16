@@ -58,18 +58,21 @@ class mainBase:
         return False
 
     def join(self) -> bool:
+        """Делаем статус входа 1"""
         self.cursor.execute('''SELECT login FROM account WHERE status = 1''')
         if self.cursor.fetchmany(1) != []:
             return True
         return False
 
     def exit(self) -> None:
+        """Делаем статус входа 0"""
         self.cursor.execute('''SELECT login FROM account WHERE status = 1''')
         login = self.cursor.fetchone()
         self.cursor.execute('''UPDATE account SET status = ? WHERE login = ?''', (0, login[0],))
         self.connection.commit()
     
     def generateMAIN(self) -> list:
+        """То что вверху много буков записывается сюда"""
         for i in generate_list: 
             self.cursor.execute('''INSERT INTO cars(carname, carnumber, fullname, description) VALUES (?, ?, ?, ?)''',
                             (i[0], i[1], i[2], i[3]))
@@ -79,16 +82,19 @@ class mainBase:
     
     
     def updateMAIN(self) -> list:
+        """Это получение много буков, с последующим выводом"""
         self.cursor.execute('''SELECT * FROM cars''')
         return self.cursor.fetchall()
     
     
     def updateCLIENT(self) -> list:
+        """Это получение много буков, с последующим выводом"""
         self.cursor.execute('''SELECT * FROM carsassept''')
         return self.cursor.fetchall()
     
     
     def changeCarsMAIN(self, carNumber: str) -> bool:
+        """Если мы нажали кнопочку в программе, то берем номер который был вписан и удаляем из одной таблицы и вписываем в другую"""
         self.cursor.execute('''SELECT * FROM cars WHERE lower(carnumber) = lower(?)''',(carNumber,))
         res = self.cursor.fetchall()
         
@@ -114,6 +120,7 @@ class mainBase:
     
     
     def changeCarsCLIENT(self, carNumber: str) -> bool:
+        """Если мы нажали кнопочку в программе, то берем номер который был вписан и удаляем из одной таблицы и вписываем в другую"""
         self.cursor.execute('''SELECT * FROM carsassept WHERE lower(carnumber) = lower(?)''',(carNumber,))
         res = self.cursor.fetchall()
         

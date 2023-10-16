@@ -94,6 +94,7 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
         self.connected()
     
     def connected(self) -> None:
+        """Подключение кнопок"""
         self.exit.clicked.connect(self.exitMain)
         self.Customers.clicked.connect(self.ToClient)
         
@@ -105,11 +106,13 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
     
 
     def exitMain(self) -> None:
+        """Выход из программы"""
         db().exit()
         self.swithToLogin.emit()
     
 
     def AsseptButton(self) -> None:
+        """Здесь вывод итогов из бд"""
         text: str = self.CarNumber.text().strip()  # удаление пробелов в начале и в конце строки
         req = db().changeCarsMAIN(carNumber=text)
         if req:
@@ -132,6 +135,7 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
 
     
     def ToNumberEdited(self, text) -> None:
+        """Если ввели меньше или ровно 12 то кнопку вкл"""
         if len(text) <= 12:
             self.assept.setEnabled(True)
         else:
@@ -139,10 +143,12 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
     
     
     def ToClient(self) -> None:
+        """Переключение окна"""
         self.swithToClient.emit()
     
 
     def Generate(self) -> None:
+        """Генерируем 'покупателей'"""
         self.Field.clear()
         rows = db().generateMAIN()
         if rows == []:
@@ -153,6 +159,7 @@ class serviceMainApp(CommonApp, serviceMain.Ui_Form):
     
 
     def update(self) -> None:
+        """Обновляем списки"""
         self.Field.clear()
         rows = db().updateMAIN()
         if rows == []:
@@ -187,6 +194,7 @@ class serviceClientApp(CommonApp, serviceClient.Ui_Form):
         self.connected()
     
     def connected(self) -> None:
+        """Подключение кнопок"""
         self.exit.clicked.connect(self.exitMain)
         self.Applications.clicked.connect(self.ToMain)
 
@@ -195,15 +203,18 @@ class serviceClientApp(CommonApp, serviceClient.Ui_Form):
     
 
     def exitMain(self) -> None:
+        """Выход из программы"""
         db().exit()
         self.swithToLogin.emit()
     
 
     def ToMain(self) -> None:
+        """Переключение окна"""
         self.swithToMain.emit()
 
 
     def AsseptButton(self) -> None:
+        """По нажатию на кнопку выводим итоги"""
         text: str = self.CarNumber.text().strip()
         req = db().changeCarsCLIENT(carNumber=text)
         if req == True:
@@ -226,6 +237,7 @@ class serviceClientApp(CommonApp, serviceClient.Ui_Form):
 
     
     def ToNumberEdited(self, text) -> None:
+        """Если наш текст меньше или ровно 12 то кнопку вкл"""
         if len(text) <= 12:
             self.assept.setEnabled(True)
         else:
@@ -233,6 +245,7 @@ class serviceClientApp(CommonApp, serviceClient.Ui_Form):
     
 
     def update(self) -> None:
+        """Обновляем списки"""
         self.Field.clear()
         rows = db().updateCLIENT()
         if rows == []:
@@ -261,6 +274,7 @@ class MainApp(QtWidgets.QApplication):
         self.client.swithToLogin.connect(self.showLoginClient) # Тут мы потключуем сигнал для перехода в другое окно
         
 
+        # Если мы уже вошли, то входим в новое окно, если ешё не вошли, то предлагаем вход
         if db().join():
             self.main.show()
         else:
@@ -277,16 +291,17 @@ class MainApp(QtWidgets.QApplication):
             return QtCore.QPoint(0, 0)
 
     def showMain(self):
-        """Переключаемся на другое окно"""
+        """Переключаемся на main из login"""
         window_pos = self.getPosition()
         self.main.move(window_pos)
         self.main.show()
         self.login.close()
     
     def showMainCL(self):
-        """Переключаемся на другое окно"""
+        """Переключаемся на main из client"""
         window_pos = self.getPosition()
 
+        # Эта функция при входе на это окно обновляет списки
         self.main.Field.clear()
         rows = db().updateMAIN()
         if rows == []:
@@ -300,9 +315,10 @@ class MainApp(QtWidgets.QApplication):
         self.client.close()
     
     def showClient(self):
-        """Переключаемся на другое окно"""
+        """Переключаемся на client из close"""
         window_pos = self.getPosition()
 
+        # Эта функция при входе на это окно обновляет списки
         self.client.Field.clear()
         rows = db().updateCLIENT()
         if rows == []:
@@ -317,7 +333,7 @@ class MainApp(QtWidgets.QApplication):
     
 
     def showLoginMain(self):
-        """Переключаемся на другое окно"""
+        """Переключаемся на main из login"""
         window_pos = self.getPosition()
         self.login.move(window_pos)
         self.login.show()
@@ -325,26 +341,11 @@ class MainApp(QtWidgets.QApplication):
     
     
     def showLoginClient(self):
-        """Переключаемся на другое окно"""
+        """Переключаемся на client из login"""
         window_pos = self.getPosition()
         self.login.move(window_pos)
         self.login.show()
         self.client.close()
-    
-    # def showLogin(self):
-    #     """Переключаемся на другое окно"""
-    #     window_pos = self.getPosition()
-    #     self.main.move(window_pos)
-    #     self.main.show()
-    #     self.login.close()
-    
-    # def showLogin(self):
-    #     """Переключаемся на другое окно"""
-    #     window_pos = self.getPosition()
-    #     self.main.move(window_pos)
-    #     self.main.show()
-    #     self.login.close()
-    
 
 
 if __name__ == "__main__":
