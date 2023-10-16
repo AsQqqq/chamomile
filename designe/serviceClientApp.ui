@@ -190,6 +190,11 @@ color: black;
      <string>Поломка</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>Дата начала</string>
+    </property>
+   </column>
   </widget>
   <widget class="QLineEdit" name="CarNumber">
    <property name="geometry">
